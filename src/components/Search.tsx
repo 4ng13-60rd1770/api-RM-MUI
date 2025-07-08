@@ -1,4 +1,4 @@
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { useState } from "react";
 import headerImage from "../assets/headerImage.png";
 
@@ -9,76 +9,64 @@ interface SearchSectionProps {
 const SearchSection = ({ onSearch }: SearchSectionProps) => {
   const [searchValue, setSearchValue] = useState("");
 
-  const handleSearch = () => {
-    onSearch(searchValue);
-  };
-
   return (
     <Box
       sx={{
-        height: '25vh',
-        width: '100%',
-        position: 'relative',
-        overflow: 'hidden',
+        height: "25vh",
+        width: "100%",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
       <img
         src={headerImage}
         alt="Header"
         style={{
-          width: '100%',
-          height: '50%',
-          objectFit: 'contain',
+          width: "100%",
+          height: "50%",
+          objectFit: "contain",
           top: 0,
-            left: 0,
-            position: 'absolute',
+          left: 0,
+          position: "absolute",
         }}
       />
 
       <Box
         sx={{
-          position: 'absolute',
+          position: "absolute",
           top: 0,
           left: 0,
-          height: '100%',
-          width: '100%',
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          color: 'white',
+          height: "100%",
+          width: "100%",
+          backgroundColor: "rgba(0,0,0,0.5)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "stretch", 
+          color: "white",
+          px: 2, 
         }}
       >
         <Box
           sx={{
-            display: 'flex',
+            width: "100%",
+            display: "flex",
             gap: 2,
-            flexDirection: { xs: 'column', sm: 'row' }, // responsive
-            alignItems: 'center',
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: "center",
           }}
         >
           <TextField
+            fullWidth
             variant="outlined"
             placeholder="Buscar personaje"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
             sx={{
-              width: "300px",
               backgroundColor: "white",
               borderRadius: "5px",
             }}
           />
-          <Button
-            variant="contained"
-            onClick={handleSearch}
-            sx={{
-              paddingX: 3,
-              paddingY: 1,
-              fontWeight: "bold",
-            }}
-          >
-            Buscar
-          </Button>
         </Box>
       </Box>
     </Box>

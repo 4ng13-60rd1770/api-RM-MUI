@@ -1,17 +1,35 @@
-import { Box, TextField, InputAdornment } from '@mui/material';
-import { useState } from 'react';
+import { Box, TextField, InputAdornment, CircularProgress } from '@mui/material';
+import { useEffect, useState } from 'react';
 import headerImage from '../assets/header.jpg';
-import SearchIcon from '@mui/icons-material/Search';
 import { useTranslation } from 'react-i18next';
+import { useCharacterStore } from '../store/useCharacterStore';
+import Tarjeta from '../components/Tarjeta';
+import SearchIcon from '@mui/icons-material/Search';
 
 const BuscadorPage = () => {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState('');
+  const { characters, loading, fetchCharacters } = useCharacterStore();
+
+  useEffect(() => {
+    fetchCharacters();
+  }, [fetchCharacters]);
 
   const handleSearch = () => {
     console.log('Buscando personaje:', searchValue);
-
   };
+
+  const filteredCharacters = characters.filter((character) =>
+    character.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
+        <CircularProgress color="primary" />
+      </Box>
+    );
+  }
 
   return (
     <Box>
@@ -51,53 +69,76 @@ const BuscadorPage = () => {
             width: { xs: '80%', md: '50%' },
           }}
         >
-<TextField
-  fullWidth
-  variant="outlined"
-  placeholder={t('header.buscador')}
-  value={searchValue}
-  onChange={(e) => setSearchValue(e.target.value)}
-  InputProps={{
-      startAdornment: (
+          <TextField
+            fullWidth
+            variant="outlined"
+            placeholder={t('header.buscador')}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            InputProps={{
+              startAdornment: (
                 <InputAdornment position="start">
                   <SearchIcon sx={{ color: 'primary.main' }} />
                 </InputAdornment>
               ),
-    sx: {
-      color: 'white', 
-      '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'text.secondary', 
-      },
-      '&:hover .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'text.secondary',
-      },
-      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'text.secondary',
-      },
-      borderRadius: 3,
-    },
-  }}
-  InputLabelProps={{
-    sx: { color: 'white', }, 
-  }}
-  sx={{
-    backgroundColor: 'rgba(0, 23, 0, 0.5)', 
-    borderRadius: 3,
-    mt: 10,
-    '& input::placeholder': {
-      color: 'white',
-      opacity: 0.7, 
-    },
-  }}
-  onKeyDown={(e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  }}
-/>
+              sx: {
+                color: 'white',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'text.secondary',
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'text.secondary',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'text.secondary',
+                },
+                borderRadius: 3,
+              },
+            }}
+            InputLabelProps={{
+              sx: { color: 'white' },
+            }}
+            sx={{
+              backgroundColor: 'rgba(0, 23, 0, 0.5)',
+              borderRadius: 3,
+              mt: 10,
+              '& input::placeholder': {
+                color: 'white',
+                opacity: 0.7,
+              },
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch();
+              }
+            }}
+          />
         </Box>
       </Box>
 
+<Box
+  display="flex"
+  flexWrap="wrap"
+  justifyContent="center"
+  gap={2}
+  mx="auto"
+  maxWidth={{ md: '80em' ,sm: '100%' }}
+>
+  {filteredCharacters.map((character) => (
+    <Box key={character.id} width={{ xs: '50%', sm: '48%' }}>
+      <Tarjeta
+        image={character.image}
+        name={character.name}
+        species={character.species}
+        location={character.location}
+        episode={character.episode}
+        status={character.status}
+      />
+    </Box>
+  ))}
+</Box>
+
+      ) 
     </Box>
   );
 };
