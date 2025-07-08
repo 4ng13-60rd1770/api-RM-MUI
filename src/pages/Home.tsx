@@ -7,7 +7,7 @@ const Home = () => {
       title="header.welcome"
       subtitle="header.subtitle"
       buttonText="header.start"
-      onButtonClick={() => { /* TODO: implement button click handler */ }}
+      onButtonClick={() => { }}
       imageSrc={headerImage}
       imageAlt="Imagen de cabecera"
       extraImageSrc={logoImage}

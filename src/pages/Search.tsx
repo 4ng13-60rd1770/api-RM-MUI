@@ -1,25 +1,27 @@
-import { Box, TextField, InputAdornment, CircularProgress } from '@mui/material';
-import { useEffect, useState } from 'react';
-import headerImage from '../assets/header.jpg';
-import { useTranslation } from 'react-i18next';
-import { useCharacterStore } from '../store/useCharacterStore';
-import Tarjeta from '../components/Tarjeta';
-import SearchIcon from '@mui/icons-material/Search';
+import { Box, CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useCharacterStore } from "../store/useCharacterStore";
+import Tarjeta from "../components/Tarjeta";
+import SearchSection from "../components/Search";
+import FavoritesFilterButtons from "../components/FavoritesToggleButton";
+import { useFavoritesStore } from "../store/useFavoritesStore";
 
 const BuscadorPage = () => {
-  const { t } = useTranslation();
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const { characters, loading, fetchCharacters } = useCharacterStore();
+  const { favorites } = useFavoritesStore();
+  const [filter, setFilter] = useState<"all" | "favorites">("all");
 
   useEffect(() => {
     fetchCharacters();
   }, [fetchCharacters]);
 
-  const handleSearch = () => {
-    console.log('Buscando personaje:', searchValue);
-  };
+  const displayedCharacters =
+    filter === "favorites"
+      ? characters.filter((c) => favorites.includes(c.id))
+      : characters;
 
-  const filteredCharacters = characters.filter((character) =>
+  const filteredCharacters = displayedCharacters.filter((character) =>
     character.name.toLowerCase().includes(searchValue.toLowerCase())
   );
 
@@ -32,113 +34,36 @@ const BuscadorPage = () => {
   }
 
   return (
-    <Box>
-      <Box
-        sx={{
-          position: 'relative',
-          height: '25vh',
-          width: '100%',
-          backgroundImage: `url(${headerImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          textAlign: 'center',
-          color: 'white',
-        }}
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            height: '100%',
-            width: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 1,
-          }}
-        />
+    <Box sx={{ backgroundColor: "#e6e7e3", minHeight: "100vh" }}>
+      <SearchSection onSearch={(query) => setSearchValue(query)} />
 
-        <Box
-          sx={{
-            position: 'relative',
-            zIndex: 2,
-            display: 'flex',
-            gap: 2,
-            width: { xs: '80%', md: '50%' },
-          }}
-        >
-          <TextField
-            fullWidth
-            variant="outlined"
-            placeholder={t('header.buscador')}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: 'primary.main' }} />
-                </InputAdornment>
-              ),
-              sx: {
-                color: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'text.secondary',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'text.secondary',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'text.secondary',
-                },
-                borderRadius: 3,
-              },
-            }}
-            InputLabelProps={{
-              sx: { color: 'white' },
-            }}
-            sx={{
-              backgroundColor: 'rgba(0, 23, 0, 0.5)',
-              borderRadius: 3,
-              mt: 10,
-              '& input::placeholder': {
-                color: 'white',
-                opacity: 0.7,
-              },
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleSearch();
-              }
-            }}
-          />
-        </Box>
+      <Box textAlign="center" my={2}>
+        <FavoritesFilterButtons onFilterChange={setFilter} />
       </Box>
 
-<Box
-  display="flex"
-  flexWrap="wrap"
-  justifyContent="center"
-  gap={2}
-  mx="auto"
-  maxWidth={{ md: '80em' ,sm: '100%' }}
->
-  {filteredCharacters.map((character) => (
-    <Box key={character.id} width={{ xs: '50%', sm: '48%' }}>
-      <Tarjeta
-        image={character.image}
-        name={character.name}
-        species={character.species}
-        location={character.location}
-        episode={character.episode}
-        status={character.status}
-      />
-    </Box>
-  ))}
-</Box>
-
-      ) 
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        justifyContent="center"
+        gap={2}
+        mx="auto"
+        maxWidth={{ md: "80em", sm: "100%" }}
+        sx={{ mt: 4, px: 2 }}
+      >
+        {filteredCharacters.map((character) => (
+          <Box key={character.id} width={{ xs: "50%", sm: "48%" }}>
+            <Tarjeta
+              id={character.id}
+              image={character.image}
+              name={character.name}
+              species={character.species}
+              location={character.location}
+              episode={character.episode}
+              status={character.status}
+            />
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 };
