@@ -26,7 +26,7 @@ const SearchSection = ({ onSearch }: SearchSectionProps) => {
     <Box
       sx={{
         position: "relative",
-        height: "25vh",
+        height: "30vh",
         width: "100%",
         backgroundImage: `url(${headerImage})`,
         backgroundSize: "cover",

@@ -9,6 +9,7 @@ interface Character {
   status: string;
   species: string;
   image: string;
+  gender: string; 
 }
 
 interface CharacterState {
