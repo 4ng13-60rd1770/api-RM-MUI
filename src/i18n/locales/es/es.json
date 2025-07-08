@@ -1,0 +1,9 @@
+{
+    "header":{
+        "welcome": "Bienvenido a Rick & Morty",
+        "subtitle": "En esta prueba, evaluaremos su capacidad para construir la aplicación mediante el análisis de \n código y la reproducción del siguiente diseño.",
+        "start": "Comenzar",
+        "buscador": "Buscar personaje por nombre"
+
+    }
+}
