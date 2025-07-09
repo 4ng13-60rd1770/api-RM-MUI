@@ -54,7 +54,6 @@ const handleSelect = (type: "species" | "gender" | "status", value: string) => {
           Filtros Avanzados
         </Typography>
 
-        {/* Species */}
         <Typography variant="subtitle1" sx={{ mt: 2 }}>
           Especie
         </Typography>
@@ -71,7 +70,6 @@ const handleSelect = (type: "species" | "gender" | "status", value: string) => {
           ))}
         </Stack>
 
-        {/* Gender */}
         <Typography variant="subtitle1" sx={{ mt: 2 }}>
           Género
         </Typography>
@@ -88,7 +86,6 @@ const handleSelect = (type: "species" | "gender" | "status", value: string) => {
           ))}
         </Stack>
 
-        {/* Status */}
         <Typography variant="subtitle1" sx={{ mt: 2 }}>
           Estado
         </Typography>
