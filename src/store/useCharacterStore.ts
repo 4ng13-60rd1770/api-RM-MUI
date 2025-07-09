@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-interface Character {
+export interface Character {
   episode: string[];
   location: { name: string; };
   id: number;
@@ -10,6 +10,7 @@ interface Character {
   species: string;
   image: string;
   gender: string; 
+
 }
 
 interface CharacterState {

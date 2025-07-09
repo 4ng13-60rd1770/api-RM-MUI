@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Modal,
   Box,
@@ -15,7 +16,7 @@ import { useEpisodes } from "../hook/useEpisodes";
 interface CharacterModalProps {
   open: boolean;
   onClose: () => void;
-  character: any;
+  character: any; 
 }
 
 const CharacterModal = ({ open, onClose, character }: CharacterModalProps) => {
@@ -43,7 +44,6 @@ const CharacterModal = ({ open, onClose, character }: CharacterModalProps) => {
           boxShadow: 24,
         }}
       >
-        {/* Imagen de fondo */}
         <Box
           sx={{
             height: 200,
@@ -61,7 +61,6 @@ const CharacterModal = ({ open, onClose, character }: CharacterModalProps) => {
           </IconButton>
         </Box>
 
-        {/* Avatar y nombre */}
         <Box
           sx={{
             display: "flex",
@@ -87,7 +86,6 @@ const CharacterModal = ({ open, onClose, character }: CharacterModalProps) => {
           </IconButton>
         </Box>
 
-        {/* Información y episodios */}
         <Box
           display="flex"
           flexDirection={{ xs: "column", md: "row" }}
@@ -95,7 +93,6 @@ const CharacterModal = ({ open, onClose, character }: CharacterModalProps) => {
           px={3}
           py={2}
         >
-          {/* Columna izquierda: Información */}
           <Box flex={1}>
             <Typography variant="subtitle1" gutterBottom>
               Información
@@ -107,7 +104,6 @@ const CharacterModal = ({ open, onClose, character }: CharacterModalProps) => {
             <Typography variant="body2">Estado: {character.status}</Typography>
           </Box>
 
-          {/* Columna derecha: Episodios */}
           <Box flex={1}>
             <Typography variant="subtitle1" gutterBottom>
               Episodios
@@ -116,7 +112,7 @@ const CharacterModal = ({ open, onClose, character }: CharacterModalProps) => {
               <Typography variant="body2">Cargando episodios...</Typography>
             ) : (
               <Box display="flex" flexWrap="wrap" gap={1}>
-                {episodes.map((ep, index) => (
+                {episodes.map((ep: any, index: number) => (
                   <Box
                     key={index}
                     sx={{
@@ -134,7 +130,6 @@ const CharacterModal = ({ open, onClose, character }: CharacterModalProps) => {
           </Box>
         </Box>
 
-        {/* Personajes relacionados */}
         <Box px={3} pb={3}>
           <Typography variant="subtitle1" gutterBottom>
             Personajes Relacionados

@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, Typography, Chip } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useCharacterStore } from "../store/useCharacterStore";
+import { useCharacterStore, type Character } from "../store/useCharacterStore";
 import Tarjeta from "../components/Tarjeta";
 import SearchSection from "../components/Search";
 import { useFavoritesStore } from "../store/useFavoritesStore";
@@ -67,9 +67,9 @@ const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(nul
     });
   };
 
-  const handleCardClick = (character) => {
-    setSelectedCharacter(character);
-  };
+const handleCardClick = (character: Character) => {
+  setSelectedCharacter(character);
+};
   
 
   if (loading) {
